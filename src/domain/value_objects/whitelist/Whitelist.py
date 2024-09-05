@@ -1,9 +1,4 @@
-from fnmatch import fnmatch
-import os
-
 from pathspec import PathSpec, patterns
-
-from domain.value_objects.whitelist_pattern.WhitelistPattern import WhitelistPattern
 
 class Whitelist:
 	"""A whitelist of patterns to match against."""
@@ -23,7 +18,7 @@ class Whitelist:
 		    _type_: bool: Whether the path is whitelisted
 		"""
 		matches = self.__whitelist_spec.match_file(path)
-		
+
 		return matches
 
 

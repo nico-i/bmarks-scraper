@@ -1,7 +1,4 @@
-from os import name
 import pytest
-from infrastructure.persistance.adapters.bookmark.brave.BraveBookmarkRepo import BraveBookmarkRepo
-from infrastructure.persistance.adapters.bookmark.brave.test_BraveBookmarkRepo import mock_brave_export_path
 from src.domain.entities.bookmark.Bookmark import Bookmark
 from src.domain.entities.folder.Folder import Folder
 

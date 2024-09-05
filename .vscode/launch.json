@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python Debugger: Module",
+      "name": "Python Debugger: Run CLI",
       "type": "debugpy",
       "request": "launch",
       "cwd": "${workspaceFolder}/src",
@@ -13,6 +13,18 @@
         "PYTHONPATH": "${workspaceFolder}/src"
       },
       "module": "presentation.cli",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "venv": "${workspaceFolder}/.venv"
+    },
+    {
+      "name": "Python Debugger: Pytest",
+      "type": "debugpy",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/src",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      },
+      "module": "pytest",
       "python": "${workspaceFolder}/.venv/bin/python",
       "venv": "${workspaceFolder}/.venv"
     }

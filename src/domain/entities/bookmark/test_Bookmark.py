@@ -3,11 +3,11 @@ from src.domain.entities.bookmark.Bookmark import Bookmark
 
 class TestBookmark:
     
-    @pytest.fixture(scope="session")
+    @pytest.fixture
     def mocked_bookmark(self):
         return Bookmark(name="Test Bookmark", url="https://www.example.com/")
     
-    @pytest.fixture(scope="session")
+    @pytest.fixture
     def mocked_bookmark_json(self):
         return '{"type": "Bookmark", "name": "Test Bookmark", "url": "https://www.example.com/"}'
     
