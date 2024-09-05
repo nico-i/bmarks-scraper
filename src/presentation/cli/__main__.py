@@ -1,9 +1,12 @@
 
 import json
-from infrastructure.persistance.adapters.brave.BraveBookmarkRepo import BraveBookmarkRepo
+import os
+from infrastructure.persistance.adapters.bookmark.brave.BraveBookmarkRepo import BraveBookmarkRepo
+from infrastructure.persistance.adapters.whitelist.fs.FSWhitelistRepo import FSWhitelistRepo
 
 
 def main():
+	whitelist_repo = FSWhitelistRepo()
 	bookmark_repo = BraveBookmarkRepo()
  
 	json_object = json.loads(bookmark_repo.get_root_folder().to_json())

@@ -3,7 +3,7 @@ import pytest
 
 from domain.entities.bookmark.Bookmark import Bookmark
 from domain.entities.folder.Folder import Folder
-from infrastructure.persistance.adapters.brave.BraveBookmarkRepo import BraveBookmarkRepo
+from infrastructure.persistance.adapters.bookmark.brave.BraveBookmarkRepo import BraveBookmarkRepo
 
 mock_brave_export_path = f"{os.path.dirname(__file__)}/__mocks__/mock_brave_export.json"
 
