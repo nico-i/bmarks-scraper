@@ -25,6 +25,7 @@
         "PYTHONPATH": "${workspaceFolder}/src"
       },
       "module": "pytest",
+      "args": ["-vv"],
       "python": "${workspaceFolder}/.venv/bin/python",
       "venv": "${workspaceFolder}/.venv"
     }

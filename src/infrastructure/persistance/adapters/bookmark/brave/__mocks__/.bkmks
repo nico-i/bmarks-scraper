@@ -1,0 +1,6 @@
+root level whitelisted bookmark
+whitelisted root level Folder
+!whitelisted root level Folder/1. Level blacklisted Bookmark
+!whitelisted root level Folder/1. level blacklisted Folder
+whitelisted root level Folder/1. level blacklisted Folder/2. Level whitelisted Bookmark
+!whitelisted root level Folder/1. level whitelisted Folder/2. Level blacklisted Bookmark

@@ -1,0 +1,4 @@
+Test Bookmark
+test/deep/folder/
+!test/deep/folder/blacklisted bookmark
+!test/deep/folder/blacklisted folder/
