@@ -3,9 +3,12 @@ import pytest
 
 from domain.repositories import whitelist
 from domain.value_objects.whitelist.Whitelist import Whitelist
-from infrastructure.persistance.adapters.whitelist.fs.FSWhitelistRepo import FSWhitelistRepo
+from infrastructure.persistance.adapters.whitelist.fs.FSWhitelistRepo import (
+    FSWhitelistRepo,
+)
 
 mock_whitelist_path = f"{os.path.dirname(__file__)}/__mocks__/.bkmks"
+
 
 class TestWhitelist:
     def test_is_whitelisted(self):
@@ -21,6 +24,8 @@ class TestWhitelist:
         assert whitelist.is_whitelisted("test/deep/") == False
         assert whitelist.is_whitelisted("test/deep/folder/") == True
         assert whitelist.is_whitelisted("test/deep/folder/Bookmark") == True
-        assert whitelist.is_whitelisted("test/deep/folder/blacklisted bookmark") == False
+        assert (
+            whitelist.is_whitelisted("test/deep/folder/blacklisted bookmark") == False
+        )
         assert whitelist.is_whitelisted("test/deep/folder/another bookmark") == True
         assert whitelist.is_whitelisted("test/deep/folder/blacklisted folder/") == False

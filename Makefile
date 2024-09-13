@@ -11,3 +11,9 @@ venv:
 
 req:
 	pip freeze > requirements.txt
+
+lint:
+	ruff lint src
+
+fmt:
+	ruff format src
