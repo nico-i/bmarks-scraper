@@ -1,7 +1,6 @@
 import os
 import pytest
 
-from domain.repositories import whitelist
 from infrastructure.persistance.adapters.whitelist.fs.FSWhitelistRepo import (
     FSWhitelistRepo,
 )

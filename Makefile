@@ -13,7 +13,7 @@ req:
 	pip freeze > requirements.txt
 
 lint:
-	ruff lint src
+	ruff check
 
 fmt:
 	ruff format src

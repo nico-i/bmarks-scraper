@@ -1,11 +1,6 @@
 import os
-import pytest
 
-from domain.repositories import whitelist
 from domain.value_objects.whitelist.Whitelist import Whitelist
-from infrastructure.persistance.adapters.whitelist.fs.FSWhitelistRepo import (
-    FSWhitelistRepo,
-)
 
 mock_whitelist_path = f"{os.path.dirname(__file__)}/__mocks__/.bkmks"
 
@@ -16,16 +11,16 @@ class TestWhitelist:
             whitelist_file_content = f.read()
 
         whitelist = Whitelist(whitelist_file_content=whitelist_file_content)
-        assert whitelist.is_whitelisted("Test Bookmark") == True
-        assert whitelist.is_whitelisted("Test Bookmark 2") == False
-        assert whitelist.is_whitelisted("root folder/") == False
-        assert whitelist.is_whitelisted("root folder/Test Bookmark") == True
-        assert whitelist.is_whitelisted("test/blacklisted") == False
-        assert whitelist.is_whitelisted("test/deep/") == False
-        assert whitelist.is_whitelisted("test/deep/folder/") == True
-        assert whitelist.is_whitelisted("test/deep/folder/Bookmark") == True
+        assert whitelist.is_whitelisted("Test Bookmark") is True
+        assert whitelist.is_whitelisted("Test Bookmark 2") is False
+        assert whitelist.is_whitelisted("root folder/") is False
+        assert whitelist.is_whitelisted("root folder/Test Bookmark") is True
+        assert whitelist.is_whitelisted("test/blacklisted") is False
+        assert whitelist.is_whitelisted("test/deep/") is False
+        assert whitelist.is_whitelisted("test/deep/folder/") is True
+        assert whitelist.is_whitelisted("test/deep/folder/Bookmark") is True
         assert (
-            whitelist.is_whitelisted("test/deep/folder/blacklisted bookmark") == False
+            whitelist.is_whitelisted("test/deep/folder/blacklisted bookmark") is False
         )
-        assert whitelist.is_whitelisted("test/deep/folder/another bookmark") == True
-        assert whitelist.is_whitelisted("test/deep/folder/blacklisted folder/") == False
+        assert whitelist.is_whitelisted("test/deep/folder/another bookmark") is True
+        assert whitelist.is_whitelisted("test/deep/folder/blacklisted folder/") is False

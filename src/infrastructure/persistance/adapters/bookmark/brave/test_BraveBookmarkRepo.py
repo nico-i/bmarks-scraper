@@ -1,5 +1,4 @@
 import os
-import pytest
 
 from domain.entities.bookmark.Bookmark import Bookmark
 from domain.entities.folder.Folder import Folder
