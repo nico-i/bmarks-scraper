@@ -92,15 +92,20 @@ def main():
                     "Enter the output file path", default="bookmarks.json"
                 ).ask()
 
+    if are_any_args_set and args.browser is None:
+        print(
+            'Please at least set the "--browser" flag when using CLI flags to run the program. See "--help" for more details. Aborting...'
+        )
+        return
+
     wl_repo: IWhitelistRepo = None
     if args.whitelist:
         wl_repo = FSWhitelistRepo(whitelist_path=args.whitelist)
 
     bkmks_repo: IBookmarkRepo = None
-
     if args.browser == "brave":
         bkmks_repo = BraveBookmarkRepo(wl_repo)
-    else:
+    elif args.browser == "other":
         print(not_supported_msg)
         return
 
