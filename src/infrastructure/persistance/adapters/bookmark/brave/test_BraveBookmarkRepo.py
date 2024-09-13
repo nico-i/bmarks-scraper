@@ -2,8 +2,8 @@ import os
 
 from domain.entities.bookmark.Bookmark import Bookmark
 from domain.entities.folder.Folder import Folder
-from infrastructure.persistance.adapters.bookmark.brave.BraveWhitelistedBookmarkRepo import (
-    BraveWhitelistedBookmarkRepo,
+from infrastructure.persistance.adapters.bookmark.brave.BraveBookmarkRepo import (
+    BraveBookmarkRepo,
 )
 from infrastructure.persistance.adapters.whitelist.fs.FSWhitelistRepo import (
     FSWhitelistRepo,
@@ -16,7 +16,7 @@ mock_whitelist_path = f"{os.path.dirname(__file__)}/__mocks__/.bkmks"
 
 class TestBraveBookmarkRepo:
     def test_get_full_toolbar(self):
-        brave_bookmark_repo = BraveWhitelistedBookmarkRepo(
+        brave_bookmark_repo = BraveBookmarkRepo(
             brave_bookmarks_path=mock_brave_export_path
         )
         full_toolbar = brave_bookmark_repo.get_root_folder()
@@ -63,7 +63,7 @@ class TestBraveBookmarkRepo:
 
     def test_get_whitelisted_toolbar(self):
         whitelisted_repo = FSWhitelistRepo(whitelist_path=mock_whitelist_path)
-        brave_whitelisted_bookmark_repo = BraveWhitelistedBookmarkRepo(
+        brave_whitelisted_bookmark_repo = BraveBookmarkRepo(
             brave_bookmarks_path=mock_brave_export_path, whitelist_repo=whitelisted_repo
         )
         whitelisted_toolbar = (

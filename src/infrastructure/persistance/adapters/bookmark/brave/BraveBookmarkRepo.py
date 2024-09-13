@@ -4,14 +4,12 @@ import platform
 from typing import Union
 from domain.entities.bookmark.Bookmark import Bookmark
 from domain.entities.folder.Folder import Folder
-from domain.repositories.bookmark.IWhitelistedBookmarkRepo import (
-    IWhitelistedBookmarkRepo,
-)
+from domain.repositories.bookmark.IBookmarkRepo import IBookmarkRepo
 from domain.repositories.whitelist.IWhitelistRepo import IWhitelistRepo
 from domain.value_objects.whitelist.Whitelist import Whitelist
 
 
-class BraveWhitelistedBookmarkRepo(IWhitelistedBookmarkRepo):
+class BraveBookmarkRepo(IBookmarkRepo):
     """Bookmark repository implementation for Brave."""
 
     __whitelist: Whitelist
