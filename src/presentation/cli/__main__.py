@@ -13,9 +13,11 @@ from infrastructure.persistance.adapters.whitelist.fs.FSWhitelistRepo import (
     FSWhitelistRepo,
 )
 
+EXPECTED_WL_FILE_NAME = ".bkmks"
+
 
 def main():
-    not_supported_msg = "Sorry, this browser does not seem to be supported yet, but PRs are always welcome! See https://github.com/nico-i/bkmks/READM for more information."
+    not_supported_msg = "Sorry, this browser does not seem to be supported yet, but PRs are always welcome! See https://github.com/nico-i/bkmks#contributing for more information."
 
     supported_browsers = os.listdir(
         path.join(os.getcwd(), "infrastructure", "persistance", "adapters", "bookmark")
@@ -37,34 +39,58 @@ def main():
         choices=supported_browsers,
     )
     parser.add_argument("-o", "--output", help="Output file path")
-    args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
-    if not args.browser:
-        args.browser = questionary.select(
-            "Select the browser you want to extract bookmarks from",
-            choices=supported_browsers,
-        ).ask()
+    set_args = {k: v for k, v in vars(args).items() if v is not None}
+    are_any_args_set = len(set_args) == 0
 
-    if args.browser == "other":
-        print(not_supported_msg)
-        return
-
-    if not args.whitelist:
-        use_wl = questionary.confirm(
-            "Would you like to only extract whitelisted bookmarks?", default=False
-        ).ask()
-        if use_wl:
-            args.whitelist = questionary.text(
-                "Enter the path to your bookmark whitelist"
+    if are_any_args_set:
+        if not args.browser:
+            args.browser = questionary.select(
+                "Select the browser you want to extract bookmarks from",
+                choices=supported_browsers,
             ).ask()
-    if not args.output:
-        write_to_file = questionary.confirm(
-            "Would you like to write the output to a file?", default=True
-        ).ask()
-        if write_to_file:
-            args.output = questionary.text(
-                "Enter the output file path", default="bookmarks.json"
+
+        if args.browser == "other":
+            print(not_supported_msg)
+            return
+
+        if not args.whitelist:
+            use_wl = questionary.confirm(
+                "Would you like to only extract whitelisted bookmarks?", default=False
             ).ask()
+            if use_wl:
+                args.whitelist = questionary.path(
+                    "Enter the path to your bookmark whitelist",
+                    default=path.join(os.getcwd(), ".bkmks"),
+                ).ask()
+
+        if args.whitelist:
+            if not os.path.exists(args.whitelist):
+                print(
+                    f'Whitelist file could not be found at "{args.whitelist}". Aborting...'
+                )
+                return
+            if not os.path.isfile(args.whitelist):
+                print(
+                    f'Whitelist path must lead to a file named "{EXPECTED_WL_FILE_NAME}". Aborting...'
+                )
+                return
+            if not args.whitelist.endswith(EXPECTED_WL_FILE_NAME):
+                print(
+                    f'Whitelist file must be named "{EXPECTED_WL_FILE_NAME}"! Aborting...'
+                )
+                return
+
+        if not args.output:
+            write_to_file = questionary.confirm(
+                "Would you like to write the output to a file (will otherwise be printed to console)?",
+                default=True,
+            ).ask()
+            if write_to_file:
+                args.output = questionary.path(
+                    "Enter the output file path", default="bookmarks.json"
+                ).ask()
 
     wl_repo: IWhitelistRepo = None
     if args.whitelist:
