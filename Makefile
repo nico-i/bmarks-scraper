@@ -1,15 +1,15 @@
 .PHONY: test
 
 run:
-	cd ./src && python -m presentation.cli
+	cd ./src && python -m presentation.cli --help
 
 test:
 	pytest
 	
-env:
+venv:
 	python -m venv .venv
 
-venv:
+env:
 	source .venv/bin/activate
 
 install:

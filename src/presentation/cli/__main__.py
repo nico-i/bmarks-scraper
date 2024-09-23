@@ -49,7 +49,7 @@ def main():
     if are_any_args_set:
         if not args.browser:
             args.browser = questionary.select(
-                "Select the browser you want to extract bookmarks from",
+                "Select the browser you want to extract bookmarks from:",
                 choices=supported_browsers,
             ).ask()
 
@@ -63,7 +63,7 @@ def main():
             ).ask()
             if use_wl:
                 args.whitelist = questionary.path(
-                    "Enter the path to your bookmark whitelist",
+                    "Enter the path to your bookmark whitelist:",
                     default=path.join(os.getcwd(), ".bkmks"),
                 ).ask()
 
@@ -91,7 +91,7 @@ def main():
             ).ask()
             if write_to_file:
                 args.output = questionary.path(
-                    "Enter the output file path", default="bookmarks.json"
+                    "Enter the output file path:", default="bookmarks.json"
                 ).ask()
 
     if are_any_args_set and args.browser is None:
