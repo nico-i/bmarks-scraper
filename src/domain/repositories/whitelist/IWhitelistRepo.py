@@ -1,6 +1,6 @@
 from abc import ABC
 
-from domain.value_objects.whitelist.Whitelist import Whitelist
+from domain.entities.whitelist.Whitelist import Whitelist
 
 
 class IWhitelistRepo(ABC):

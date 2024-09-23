@@ -6,19 +6,14 @@ from domain.entities.bookmark.Bookmark import Bookmark
 from domain.entities.folder.Folder import Folder
 from domain.repositories.bookmark.IBookmarkRepo import IBookmarkRepo
 from domain.repositories.whitelist.IWhitelistRepo import IWhitelistRepo
-from domain.value_objects.whitelist.Whitelist import Whitelist
+from domain.entities.whitelist.Whitelist import Whitelist
 
 
 class BraveBookmarkRepo(IBookmarkRepo):
     """Bookmark repository implementation for Brave."""
 
-    __whitelist: Whitelist
-    __all_brave_bookmarks: Folder
-    __whitelisted_brave_bookmarks: Folder
-
     def __init__(
         self,
-        whitelist_repo: Union[IWhitelistRepo, None] = None,
         brave_bookmarks_path: Union[str, None] = None,
     ):
         """Initialize the BraveBookmarkRepo.
@@ -26,32 +21,20 @@ class BraveBookmarkRepo(IBookmarkRepo):
         Args:
             brave_bookmarks_path (_type_: str or None): Path to the Brave bookmarks file
         """
-        brave_bookmarks_path = (
+        self.__brave_bookmarks_path = (
             brave_bookmarks_path or self.__get_brave_bookmarks_export_path()
         )
-        self.__whitelist = (
-            None if whitelist_repo is None else whitelist_repo.get_whitelist()
-        )
+
+    def get_root_folder(self, whitelist: Whitelist = None) -> Folder:
         bookmarks_export = None
-        with open(brave_bookmarks_path, "r", encoding="utf-8") as f:
+        with open(self.__brave_bookmarks_path, "r", encoding="utf-8") as f:
             bookmarks_export = json.load(f)
 
-        self.__all_brave_bookmarks = self.__parse_brave_bookmarks(
-            bookmarks_export, only_parse_whitelisted=False
-        )
-        self.__whitelisted_brave_bookmarks = (
-            self.__all_brave_bookmarks
-            if whitelist_repo is None
-            else self.__parse_brave_bookmarks(
-                bookmarks_export, only_parse_whitelisted=True
-            )
+        brave_bkmks = self.__parse_brave_bookmarks(
+            bookmarks_export=bookmarks_export, whitelist=whitelist
         )
 
-    def get_root_folder(self):
-        return self.__all_brave_bookmarks
-
-    def get_whitelisted_root_folder(self):
-        return self.__whitelisted_brave_bookmarks
+        return brave_bkmks
 
     def __get_brave_bookmarks_export_path(self):
         """Retrieve the path to the Brave bookmarks file.
@@ -90,7 +73,7 @@ class BraveBookmarkRepo(IBookmarkRepo):
         return maybe_brave_bookmarks_path
 
     def __rec_parse__brave_bookmark(
-        self, bookmark_or_folder: dict, current_path: str, only_parse_whitelisted: bool
+        self, bookmark_or_folder: dict, current_path: str, whitelist: Whitelist = None
     ) -> Union[Folder, Bookmark, None]:
         """Recursively parse a Brave bookmark or folder.
 
@@ -117,7 +100,7 @@ class BraveBookmarkRepo(IBookmarkRepo):
                 parsed_child = self.__rec_parse__brave_bookmark(
                     bookmark_or_folder=child,
                     current_path=new_path,
-                    only_parse_whitelisted=only_parse_whitelisted,
+                    whitelist=whitelist,
                 )
                 if parsed_child is not None:
                     children.append(parsed_child)
@@ -135,11 +118,10 @@ class BraveBookmarkRepo(IBookmarkRepo):
             )
 
             is_whitelisted = True
-            if only_parse_whitelisted:
-                is_whitelisted = self.__whitelist.is_whitelisted(new_path)
-
-            if only_parse_whitelisted and not is_whitelisted:
-                return None
+            if whitelist is not None:
+                is_whitelisted = whitelist.is_whitelisted(new_path)
+                if not is_whitelisted:
+                    return None
             if "url" not in bookmark_or_folder:
                 raise ValueError("Invalid Brave bookmark: missing 'url' key")
 
@@ -168,7 +150,7 @@ class BraveBookmarkRepo(IBookmarkRepo):
         return Folder(name=folder.name, children=children)
 
     def __parse_brave_bookmarks(
-        self, bookmarks_export: dict, only_parse_whitelisted: bool
+        self, bookmarks_export: dict, whitelist: Whitelist = None
     ) -> Folder:
         """Parse the Brave bookmarks export into a list of Folder and Bookmark instances.
 
@@ -189,9 +171,7 @@ class BraveBookmarkRepo(IBookmarkRepo):
         root_folder_name = "root"
         children = [
             self.__rec_parse__brave_bookmark(
-                bookmark_or_folder=child,
-                current_path="",
-                only_parse_whitelisted=only_parse_whitelisted,
+                bookmark_or_folder=child, current_path="", whitelist=whitelist
             )
             for child in bookmarks_export["roots"]["bookmark_bar"]["children"]
         ]

@@ -63,11 +63,12 @@ class TestBraveBookmarkRepo:
 
     def test_get_whitelisted_toolbar(self):
         whitelisted_repo = FSWhitelistRepo(whitelist_path=mock_whitelist_path)
+        whitelist = whitelisted_repo.get_whitelist()
         brave_whitelisted_bookmark_repo = BraveBookmarkRepo(
-            brave_bookmarks_path=mock_brave_export_path, whitelist_repo=whitelisted_repo
+            brave_bookmarks_path=mock_brave_export_path
         )
-        whitelisted_toolbar = (
-            brave_whitelisted_bookmark_repo.get_whitelisted_root_folder()
+        whitelisted_toolbar = brave_whitelisted_bookmark_repo.get_root_folder(
+            whitelist=whitelist
         )
 
         assert whitelisted_toolbar == Folder(

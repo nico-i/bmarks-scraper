@@ -3,6 +3,7 @@ from datetime import datetime
 import json
 from os import path
 import os
+from application.services.writer.WriterService import WriterService
 from domain.entities.folder.Folder import Folder
 from domain.repositories.bookmark.IBookmarkRepo import IBookmarkRepo
 import questionary
@@ -99,33 +100,29 @@ def main():
         )
         return
 
-    wl_repo: IWhitelistRepo = None
-    if args.whitelist:
-        wl_repo = FSWhitelistRepo(whitelist_path=args.whitelist)
-
     bkmks_repo: IBookmarkRepo = None
     if args.browser == "brave":
-        bkmks_repo = BraveBookmarkRepo(wl_repo)
+        bkmks_repo = BraveBookmarkRepo()
     elif args.browser == "other":
         print(not_supported_msg)
         return
 
-    root_folder_json: Folder = None
-    if wl_repo:
-        root_folder_json = bkmks_repo.get_whitelisted_root_folder()
-    else:
-        root_folder_json = bkmks_repo.get_root_folder()
+    wl_repo: IWhitelistRepo = None
+    if args.whitelist:
+        wl_repo = FSWhitelistRepo(whitelist_path=args.whitelist)
 
-    json_dict = {}
-    json_dict["created"] = datetime.now().isoformat()
-    json_dict["bookmarks"] = json.loads(root_folder_json.to_json())
+    whitelist = None if wl_repo is None else wl_repo.get_whitelist()
+
+    writer_service = WriterService(bkmks_repo=bkmks_repo, whitelist=whitelist)
+
+    json_str = writer_service.print_bkmks_json()
 
     if not args.output:
-        print(json.dumps(json_dict, indent=4, ensure_ascii=False))
+        print(json_str)
         return
 
     with open(args.output, "w", encoding="utf-8") as f:
-        f.write(json.dumps(json_dict, indent=4, ensure_ascii=False))
+        f.write(json_str)
 
 
 if __name__ == "__main__":

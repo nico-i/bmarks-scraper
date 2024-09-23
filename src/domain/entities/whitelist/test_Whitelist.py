@@ -1,6 +1,6 @@
 import os
 
-from domain.value_objects.whitelist.Whitelist import Whitelist
+from domain.entities.whitelist.Whitelist import Whitelist
 
 mock_whitelist_path = f"{os.path.dirname(__file__)}/__mocks__/.bkmks"
 
