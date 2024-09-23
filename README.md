@@ -1,6 +1,30 @@
-# bkmks - The browser bookmarks extractor
+# bkmks - unified browser bookmark exporter
 
-Extendable browser-bookmark parser CLI tool. Export your browser bookmarks into a simple and unified notation of the bookmark tree. Optionally add a whitelist to only export whitelisted bookmarks or folders.
+Extendable browser bookmark exporter CLI tool. Export your browser bookmark tree into a simple and unified JSON. Optionally add a whitelist to only export whitelisted bookmarks or folders.
+
+Output example:
+
+```json
+{
+    "created": "2024-09-23T13:31:10.312132",
+    "bookmarks": [
+        {
+            "name": "Root level bookmark",
+            "url": "https://bookmark.com"
+        },
+        {
+            "name": "Root level folder",
+            "children": [
+                {
+                    "name": "1. level deep bookmark",
+                    "url": "https://bookmark.com"
+                },
+                
+            ]
+        }
+    ]
+}
+```
 
 ## Usage
 
@@ -35,13 +59,13 @@ options:
                         Output file path
 ```
 
-*Note: `--help` output above generated on 23.09.2024 results may differ*
+*Note: `--help` output above generated on 23.09.2024 your results may differ slightly*
 
 ### Prequisites
 
-- Python (>=3.12.5)
-- ruff
-- make (optional)
+- [Python](https://www.python.org/downloads/) (>=3.12.5)
+- [ruff](https://docs.astral.sh/ruff/)
+- [make](https://www.gnu.org/software/make/manual/make.html) (optional)
 
 ### Setting up
 
