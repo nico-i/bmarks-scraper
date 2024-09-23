@@ -15,12 +15,12 @@ class WriterService:
     def print_bkmks_json(self):
         """Returns a JSON of all"""
 
-        root_folder_json = self.__bkmks_repo.get_root_folder(whitelist=self.__whitelist)
+        bkmks_and_folders = self.__bkmks_repo.get_bkmks(whitelist=self.__whitelist)
+        bkmks_str = f"[{", ".join([b_or_f.to_json() for b_or_f in bkmks_and_folders])}]"
 
-        json_dict = {}
-        json_dict["created"] = datetime.now().isoformat()
-        json_dict["bookmarks"] = json.loads(root_folder_json.to_json())
-
-        json_str = json.dumps(json_dict, indent=4, ensure_ascii=False)
-
+        json_str = (
+            "{"
+            + f'"created": "{datetime.now().isoformat()}", "bookmarks": {bkmks_str}'
+            + "}"
+        )
         return json_str

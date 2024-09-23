@@ -1,7 +1,7 @@
 import json
 import os
 import platform
-from typing import Union
+from typing import List, Union
 from domain.entities.bookmark.Bookmark import Bookmark
 from domain.entities.folder.Folder import Folder
 from domain.repositories.bookmark.IBookmarkRepo import IBookmarkRepo
@@ -25,7 +25,7 @@ class BraveBookmarkRepo(IBookmarkRepo):
             brave_bookmarks_path or self.__get_brave_bookmarks_export_path()
         )
 
-    def get_root_folder(self, whitelist: Whitelist = None) -> Folder:
+    def get_bkmks(self, whitelist: Whitelist = None) -> Folder:
         bookmarks_export = None
         with open(self.__brave_bookmarks_path, "r", encoding="utf-8") as f:
             bookmarks_export = json.load(f)
@@ -151,7 +151,7 @@ class BraveBookmarkRepo(IBookmarkRepo):
 
     def __parse_brave_bookmarks(
         self, bookmarks_export: dict, whitelist: Whitelist = None
-    ) -> Folder:
+    ) -> List[Union[Folder, Bookmark]]:
         """Parse the Brave bookmarks export into a list of Folder and Bookmark instances.
 
         Args:
@@ -168,15 +168,16 @@ class BraveBookmarkRepo(IBookmarkRepo):
                 "Invalid Brave bookmarks export: missing 'bookmark_bar' key"
             )
 
-        root_folder_name = "root"
-        children = [
-            self.__rec_parse__brave_bookmark(
-                bookmark_or_folder=child, current_path="", whitelist=whitelist
-            )
-            for child in bookmarks_export["roots"]["bookmark_bar"]["children"]
-        ]
+        root_folder = Folder(
+            name="root",
+            children=[
+                self.__rec_parse__brave_bookmark(
+                    bookmark_or_folder=child, current_path="", whitelist=whitelist
+                )
+                for child in bookmarks_export["roots"]["bookmark_bar"]["children"]
+            ],
+        )
 
-        root_folder = Folder(name=root_folder_name, children=children)
-        root_folder = self.__rec_filter_folder(root_folder)
+        filtered_root_folder = self.__rec_filter_folder(root_folder)
 
-        return root_folder
+        return filtered_root_folder.children

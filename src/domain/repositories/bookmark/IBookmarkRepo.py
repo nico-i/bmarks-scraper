@@ -7,10 +7,10 @@ class IBookmarkRepo(ABC):
     """BookmarkRepo interface"""
 
     @abstractmethod
-    def get_root_folder(self, whitelist: Whitelist = None) -> Folder:
-        """Get the full bookmarks toolbar starting with the root folder. Only returns whitelisted bookmarks if a whitelist is passed.
+    def get_bkmks(self, whitelist: Whitelist = None) -> Folder:
+        """Get all bookmarks toolbar starting from the root. Only returns whitelisted bookmarks if a whitelist is passed.
 
         Returns:
-            _type_: Folder: Full bookmarks toolbar
+            _type_: List[Union[Folder, Bookmark]]: All bookmarks
         """
         pass

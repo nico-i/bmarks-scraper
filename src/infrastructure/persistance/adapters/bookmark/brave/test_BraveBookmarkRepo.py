@@ -19,45 +19,42 @@ class TestBraveBookmarkRepo:
         brave_bookmark_repo = BraveBookmarkRepo(
             brave_bookmarks_path=mock_brave_export_path
         )
-        full_toolbar = brave_bookmark_repo.get_root_folder()
+        full_toolbar = brave_bookmark_repo.get_bkmks()
 
-        expected_bookmarks_folder = Folder(
-            name="root",
-            children=[
-                Folder(
-                    name="whitelisted root level Folder",
-                    children=[
-                        Folder(
-                            name="1. level whitelisted Folder",
-                            children=[
-                                Bookmark(
-                                    name="2. Level whitelisted Bookmark",
-                                    url="https://whitelist.com",
-                                ),
-                                Bookmark(
-                                    name="2. Level blacklisted Bookmark",
-                                    url="https://blacklist.com",
-                                ),
-                            ],
-                        ),
-                        Bookmark(
-                            name="1. Level whitelisted Bookmark",
-                            url="https://whitelist.com",
-                        ),
-                        Bookmark(
-                            name="1. Level blacklisted Bookmark",
-                            url="https://blacklist.com",
-                        ),
-                    ],
-                ),
-                Bookmark(
-                    name="root level whitelisted bookmark", url="https://whitelist.com"
-                ),
-                Bookmark(
-                    name="root level blacklisted bookmark", url="https://blacklist.com"
-                ),
-            ],
-        )
+        expected_bookmarks_folder = [
+            Folder(
+                name="whitelisted root level Folder",
+                children=[
+                    Folder(
+                        name="1. level whitelisted Folder",
+                        children=[
+                            Bookmark(
+                                name="2. Level whitelisted Bookmark",
+                                url="https://whitelist.com",
+                            ),
+                            Bookmark(
+                                name="2. Level blacklisted Bookmark",
+                                url="https://blacklist.com",
+                            ),
+                        ],
+                    ),
+                    Bookmark(
+                        name="1. Level whitelisted Bookmark",
+                        url="https://whitelist.com",
+                    ),
+                    Bookmark(
+                        name="1. Level blacklisted Bookmark",
+                        url="https://blacklist.com",
+                    ),
+                ],
+            ),
+            Bookmark(
+                name="root level whitelisted bookmark", url="https://whitelist.com"
+            ),
+            Bookmark(
+                name="root level blacklisted bookmark", url="https://blacklist.com"
+            ),
+        ]
 
         assert full_toolbar == expected_bookmarks_folder
 
@@ -67,33 +64,30 @@ class TestBraveBookmarkRepo:
         brave_whitelisted_bookmark_repo = BraveBookmarkRepo(
             brave_bookmarks_path=mock_brave_export_path
         )
-        whitelisted_toolbar = brave_whitelisted_bookmark_repo.get_root_folder(
+        whitelisted_toolbar = brave_whitelisted_bookmark_repo.get_bkmks(
             whitelist=whitelist
         )
 
-        assert whitelisted_toolbar == Folder(
-            name="root",
-            children=[
-                Folder(
-                    name="whitelisted root level Folder",
-                    children=[
-                        Folder(
-                            name="1. level whitelisted Folder",
-                            children=[
-                                Bookmark(
-                                    name="2. Level whitelisted Bookmark",
-                                    url="https://whitelist.com",
-                                ),
-                            ],
-                        ),
-                        Bookmark(
-                            name="1. Level whitelisted Bookmark",
-                            url="https://whitelist.com",
-                        ),
-                    ],
-                ),
-                Bookmark(
-                    name="root level whitelisted bookmark", url="https://whitelist.com"
-                ),
-            ],
-        )
+        assert whitelisted_toolbar == [
+            Folder(
+                name="whitelisted root level Folder",
+                children=[
+                    Folder(
+                        name="1. level whitelisted Folder",
+                        children=[
+                            Bookmark(
+                                name="2. Level whitelisted Bookmark",
+                                url="https://whitelist.com",
+                            ),
+                        ],
+                    ),
+                    Bookmark(
+                        name="1. Level whitelisted Bookmark",
+                        url="https://whitelist.com",
+                    ),
+                ],
+            ),
+            Bookmark(
+                name="root level whitelisted bookmark", url="https://whitelist.com"
+            ),
+        ]
