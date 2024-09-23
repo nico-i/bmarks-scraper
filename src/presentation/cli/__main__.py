@@ -1,4 +1,5 @@
 import argparse
+from datetime import datetime
 import json
 from os import path
 import os
@@ -115,14 +116,16 @@ def main():
     else:
         root_folder_json = bkmks_repo.get_root_folder()
 
-    json_object = json.loads(root_folder_json.to_json())
+    json_dict = {}
+    json_dict["created"] = datetime.now().isoformat()
+    json_dict["bookmarks"] = json.loads(root_folder_json.to_json())
 
     if not args.output:
-        print(json.dumps(json_object, indent=4, ensure_ascii=False))
+        print(json.dumps(json_dict, indent=4, ensure_ascii=False))
         return
 
     with open(args.output, "w", encoding="utf-8") as f:
-        f.write(json.dumps(json_object, indent=4, ensure_ascii=False))
+        f.write(json.dumps(json_dict, indent=4, ensure_ascii=False))
 
 
 if __name__ == "__main__":

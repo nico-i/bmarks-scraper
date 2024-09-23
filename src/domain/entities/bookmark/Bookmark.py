@@ -1,4 +1,4 @@
-from attr import dataclass
+from dataclasses import dataclass
 
 from domain.interfaces.JSONable.JSONable import JSONable
 
@@ -15,4 +15,4 @@ class Bookmark(JSONable):
     url: str
 
     def to_json(self):
-        return f'{{"type": "{Bookmark.__name__}", "name": "{self.name}", "url": "{self.url}"}}'
+        return f'{{"name": "{self.name}", "url": "{self.url}"}}'

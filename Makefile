@@ -6,8 +6,14 @@ run:
 test:
 	pytest
 	
+env:
+	python -m venv .venv
+
 venv:
-	python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+	source .venv/bin/activate
+
+install:
+	pip install -r requirements.txt
 
 req:
 	pip freeze > requirements.txt

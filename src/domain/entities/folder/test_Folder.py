@@ -19,7 +19,7 @@ class TestBookmark:
 
     @pytest.fixture
     def mocked_folder_json(self):
-        return '{"type": "Folder", "name": "Test Folder", "children": [{"type": "Folder", "name": "Subfolder", "children": [{"type": "Bookmark", "name": "Test Bookmark", "url": "https://www.example.com/"}]},{"type": "Bookmark", "name": "Test Bookmark", "url": "https://www.example.com/"},{"type": "Bookmark", "name": "Test Bookmark", "url": "https://www.example.com/"}]}'
+        return '{"name": "Test Folder", "children": [{"name": "Subfolder", "children": [{"name": "Test Bookmark", "url": "https://www.example.com/"}]},{"name": "Test Bookmark", "url": "https://www.example.com/"},{"name": "Test Bookmark", "url": "https://www.example.com/"}]}'
 
     def test_to_json(self, mocked_folder, mocked_folder_json):
         json_str = mocked_folder.to_json()
