@@ -4,9 +4,9 @@ dev:
 	cd ./src && python -m presentation.cli
 
 build:
-	make NAME=bkmks no-name-build
+	make NAME=bkmks build-no-name
 
-no-name-build:
+build-no-name:
 	pyinstaller --onefile -n $(NAME) --path src --paths .venv/lib/python3.12/site-packages src/presentation/cli/__main__.py 
 
 run:
