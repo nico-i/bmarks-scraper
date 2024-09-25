@@ -1,7 +1,13 @@
-.PHONY: test
+.PHONY: test build
+
+dev:
+	cd ./src && python -m presentation.cli
+
+build:
+	pyinstaller --onefile --path src -n bkmks src/presentation/cli/__main__.py --paths .venv/lib/python3.12/site-packages
 
 run:
-	cd ./src && python -m presentation.cli
+	./dist/bkmks
 
 test:
 	pytest

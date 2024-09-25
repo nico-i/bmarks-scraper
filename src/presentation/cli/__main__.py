@@ -1,10 +1,7 @@
 import argparse
-from datetime import datetime
-import json
 from os import path
 import os
 from application.services.writer.WriterService import WriterService
-from domain.entities.folder.Folder import Folder
 from domain.repositories.bookmark.IBookmarkRepo import IBookmarkRepo
 import questionary
 from domain.repositories.whitelist.IWhitelistRepo import IWhitelistRepo
@@ -16,14 +13,13 @@ from infrastructure.persistance.adapters.whitelist.fs.FSWhitelistRepo import (
 )
 
 EXPECTED_WL_FILE_NAME = ".bkmks"
+SUPPORTED_BROWSERS = ["brave"]
 
 
 def main():
     not_supported_msg = "Sorry, this browser does not seem to be supported yet, but PRs are always welcome! See https://github.com/nico-i/bkmks#contributing for more information."
 
-    supported_browsers = os.listdir(
-        path.join(os.getcwd(), "infrastructure", "persistance", "adapters", "bookmark")
-    )
+    supported_browsers = SUPPORTED_BROWSERS.copy()
     supported_browsers.append("other")
 
     parser = argparse.ArgumentParser(
