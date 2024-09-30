@@ -30,7 +30,7 @@ jobs:
           CIBW_SKIP: cp27-* cp35-* pp*
           CIBW_BEFORE_BUILD: pip install -r requirements.txt
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
 
@@ -50,7 +50,7 @@ jobs:
           pip install build
           python -m build --sdist
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: dist/*.tar.gz
 
