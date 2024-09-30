@@ -29,6 +29,9 @@ jobs:
       - name: Build wheel
         run: python setup.py bdist_wheel
 
+      - name: Rename wheel
+        run: mv dist/*.whl dist/${{ github.event.release.tag_name }}-${{ matrix.os }}.whl
+
       - name: Store wheel
         uses: actions/upload-artifact@v4
         with:
@@ -74,8 +77,19 @@ jobs:
           name: sdist
           path: dist
 
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          python-version: "3.12.x"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install twine
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          twine upload dist/*
