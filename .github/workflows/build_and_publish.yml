@@ -11,53 +11,47 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-20.04, windows-2019, macos-11]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: "3.12.x"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install setuptools wheel twine
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.12.1
 
-      - name: Build wheel
-        run: python setup.py bdist_wheel
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir wheelhouse
+        env:
+          CIBW_SKIP: cp27-* cp35-* pp*
+          CIBW_BEFORE_BUILD: pip install -r requirements.txt
 
-      - name: Store wheel
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
-          name: wheels-{{ matrix.os }}
-          path: dist/*.whl
+          path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: "3.12.x"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install setuptools
-
       - name: Build sdist
-        run: python setup.py sdist
+        run: |
+          pip install build
+          python -m build --sdist
 
-      - name: Store sdist
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
-          name: sdist
           path: dist/*.tar.gz
 
   upload_pypi:
@@ -66,22 +60,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: wheels-ubuntu-latest
-          path: dist
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: wheels-windows-latest
-          path: dist
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: wheels-macos-latest
-          path: dist
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: sdist
+          name: artifact
           path: dist
 
       - name: Set up Python
