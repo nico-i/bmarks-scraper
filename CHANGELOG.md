@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/nico-i/bkmks/compare/v0.2.0...v0.2.0) (2024-09-30)
+
+
+### Miscellaneous Chores
+
+* release 0.2.0 ([4334803](https://github.com/nico-i/bkmks/commit/4334803a4b316f3efd61d2030fefd0c2f0dac39a))
+
 ## [0.2.0](https://github.com/nico-i/bkmks/compare/v0.1.1...v0.2.0) (2024-09-30)
 
 
