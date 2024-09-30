@@ -30,12 +30,12 @@ jobs:
         run: python setup.py bdist_wheel
 
       - name: Rename wheel
-        run: mv dist/*.whl dist/${{ github.event.release.tag_name }}-${{ matrix.os }}.whl
+        run: mv dist/*.whl dist/.whl
 
       - name: Store wheel
         uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: wheels-{{ matrix.os }}
           path: dist/*.whl
 
   build_sdist:
@@ -69,7 +69,17 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: wheels
+          name: wheels-ubuntu-latest
+          path: dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-windows-latest
+          path: dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-macos-latest
           path: dist
 
       - uses: actions/download-artifact@v4
