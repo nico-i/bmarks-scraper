@@ -26,11 +26,23 @@ Output example:
 }
 ```
 
+## Installation
+
+Via pip:
+
+```shell
+pip install bkmks
+```
+
 ## Usage
 
 There are two ways to use the tool:
 
 ### Prompts
+
+```shell
+bkmks
+```
 
 When running `bkmks` in the console after installation with no additional arguments the program will go through interactive prompts to determine how you want to use it. An example prompt conversation could look like the following:
 
@@ -43,6 +55,10 @@ When running `bkmks` in the console after installation with no additional argume
 ```
 
 ### CLI Flags
+
+```shell
+bkmks --help
+```
 
 If you would like to skip the step by step approach and directly communicate your inputs to the program you can utilize CLI flags. All available flags can be accessed by passing the `-h` or `--help` flag when running the program. This is the output of `--help`:
 

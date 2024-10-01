@@ -90,3 +90,19 @@ Another benefit of splitting or code like this is that is also greatly facilitat
 Implementing the aspect of interactivity was on the one hand done with the help of the questionary library, to prompt the user with questions concerning how they want to use the tool, and the native argparse library, to process any passed CLI flags.
 
 Finally, there is the aspect of whitelisting bookmarks. Fortunately, [cpburnz](https://github.com/cpburnz) has already done an amazing job implementing a gitignore-esque whitelisting library for filepaths named [`pathspec`](https://github.com/cpburnz/python-pathspec). Since we are also dealing with a directory-tree we will have no problems using this library as long as we keep track of the *path* of each bookmark and bookmark folder.
+
+## Try it out
+
+After implementation the only thing left to do is to make it publicly available. For this, I have set up a CD pipeline to automatically publish the script to [PyPi](https://pypi.org/) (Python package repository) whenever a new release and tag are created in the GitHub repository. The creation of these releases and corresponding changelog is automatically handled by the [release-please](https://github.com/googleapis/release-please) GitHub action.
+
+After all these pipelines have run `bkmks` can then be installed via [pip](https://pypi.org/project/pip/):
+
+```shell
+pip install bkmks
+```
+
+You can run it by just calling it in the console:
+
+```shell
+bkmks
+```
