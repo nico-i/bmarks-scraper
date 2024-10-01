@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="bkmks",
-    version="0.1.0",
+    version="0.1.1",
     description="Extendable browser bookmark exporter CLI tool",
     url="https://github.com/nico-i/bkmks",
     author="Nico Ismaili",
