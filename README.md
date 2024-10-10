@@ -7,22 +7,26 @@ Output example:
 ```json
 {
     "created": "2024-09-23T13:31:10.312132",
-    "bookmarks": [
-        {
-            "name": "Root level bookmark",
-            "url": "https://bookmark.com"
-        },
-        {
-            "name": "Root level folder",
-            "children": [
-                {
-                    "name": "1. level deep bookmark",
-                    "url": "https://bookmark.com"
-                },
-                
-            ]
-        }
-    ]
+    "bookmarks": 
+    {
+        "name": "Bookmarks",
+        "children": [
+            {
+                "name": "Root level bookmark",
+                "url": "https://bookmark.com"
+            },
+            {
+                "name": "Root level folder",
+                "children": [
+                    {
+                        "name": "1. level deep bookmark",
+                        "url": "https://bookmark.com"
+                    },
+                    
+                ]
+            }
+        ]
+    }
 }
 ```
 
