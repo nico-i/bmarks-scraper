@@ -5,7 +5,6 @@ from typing import List, Union
 from domain.entities.bookmark.Bookmark import Bookmark
 from domain.entities.folder.Folder import Folder
 from domain.repositories.bookmark.IBookmarkRepo import IBookmarkRepo
-from domain.repositories.whitelist.IWhitelistRepo import IWhitelistRepo
 from domain.entities.whitelist.Whitelist import Whitelist
 
 

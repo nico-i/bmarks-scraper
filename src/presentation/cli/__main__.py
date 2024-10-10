@@ -1,4 +1,5 @@
 import argparse
+import datetime
 from os import path
 import os
 from application.services.writer.WriterService import WriterService
@@ -96,7 +97,7 @@ def main():
         )
         return
 
-    bkmks_repo: IBookmarkRepo = None
+    bkmks_repo: IBookmarkRepo
     if args.browser == "brave":
         bkmks_repo = BraveBookmarkRepo()
     elif args.browser == "other":
@@ -109,7 +110,9 @@ def main():
 
     whitelist = None if wl_repo is None else wl_repo.get_whitelist()
 
-    writer_service = WriterService(bkmks_repo=bkmks_repo, whitelist=whitelist)
+    writer_service = WriterService(
+        bkmks_repo=bkmks_repo, whitelist=whitelist, current_time=datetime.datetime.now()
+    )
 
     json_str = writer_service.print_bkmks_json()
 

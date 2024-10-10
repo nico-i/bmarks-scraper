@@ -8,10 +8,7 @@ class Bookmark(JSONable):
     """
     A browser bookmark.
     """
-
-    # Bookmark name
     name: str
-    # Bookmark URL
     url: str
 
     def to_json(self):

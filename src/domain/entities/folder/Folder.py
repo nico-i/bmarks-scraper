@@ -12,7 +12,6 @@ class Folder(JSONable):
     A folder containing bookmarks and subfolders.
     """
 
-    # Folder name
     name: str
     # Children (sub-folders and bookmarks)
     children: List[Union["Folder", Bookmark]] = field(default_factory=list)
