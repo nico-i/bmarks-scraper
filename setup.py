@@ -1,10 +1,16 @@
 from setuptools import setup, find_packages
+from pathlib import Path
+
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="bkmks",
-    version="0.1.1",
+    version="2.0.0",
     description="Extendable browser bookmark exporter CLI tool",
     url="https://github.com/nico-i/bkmks",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author="Nico Ismaili",
     author_email="nico@ismaili.de",
     keywords="bookmark, browser, export",
